@@ -4,34 +4,39 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.material.Card
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.navArgument
 import androidx.navigation.compose.rememberNavController
 import com.google.gson.Gson
 
 
 @ExperimentalMaterialApi
 @Composable
-fun MyApp() {
+fun NavigationApp() {
     val navController = rememberNavController()
 
     NavHost(navController = navController, startDestination = "user_list_screen") {
         composable("user_list_screen") {
             UserListScreen(navController, getData())
         }
-        composable("user_detail_screen/{user}") { navBackStackEntry ->
+        composable(
+            "user_detail_screen/{user}",
+            arguments = listOf(navArgument("user") {
+                type = NavType.StringType
+//                defaultValue = "Test"
+//                nullable = true
+            })
+        ) { navBackStackEntry ->
             val userStr = navBackStackEntry.arguments?.getString("user").let {
                 UserDetailScreen(user = Gson().fromJson(it, User::class.java))
             }
@@ -81,5 +86,5 @@ fun UserDetailScreen(user: User) {
 @Preview
 @Composable
 fun HomeScreenPreview() {
-    MyApp()
+    NavigationApp()
 }
