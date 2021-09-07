@@ -13,13 +13,12 @@ class MainActivity : ComponentActivity() {
         const val TAG = "mydata"
     }
 
-    @ExperimentalMaterialApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             ComposeSampleTheme {
                 // A surface container using the 'background' color from the theme
-                BottomNavigationApp()
+                MyCanvas()
             }
         }
     }
